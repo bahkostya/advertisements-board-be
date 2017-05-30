@@ -17,8 +17,10 @@ public class User extends AbstractEntity {
     private String name;
     @Column(name = "surname", nullable = false)
     private String surname;
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone", nullable = false, unique = true)
     private String phone;
+    @Column(name = "password", length = 60)
+    private String password;
 
     @OneToMany(mappedBy = "user")
     private Set<Advertisement> advertisements;
@@ -53,5 +55,13 @@ public class User extends AbstractEntity {
 
     public void setAdvertisements(Set<Advertisement> advertisements) {
         this.advertisements = advertisements;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

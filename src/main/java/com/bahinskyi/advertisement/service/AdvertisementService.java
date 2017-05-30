@@ -4,6 +4,7 @@ import com.bahinskyi.advertisement.api.dto.AdvertisementVO;
 import com.bahinskyi.advertisement.domain.advertisement.Advertisement;
 import com.bahinskyi.advertisement.exception.AdvertisementBoardException;
 import com.bahinskyi.advertisement.repository.AdvertisementRepository;
+import com.bahinskyi.advertisement.util.UserKeeper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,14 @@ import java.util.*;
 public class AdvertisementService implements AdvertisementManager {
 
     private final AdvertisementRepository advertisementRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final UserKeeper userKeeper;
 
     @Autowired
-    public AdvertisementService(AdvertisementRepository advertisementRepository) {
+    public AdvertisementService(AdvertisementRepository advertisementRepository, ModelMapper modelMapper, UserKeeper userKeeper) {
         this.advertisementRepository = advertisementRepository;
+        this.modelMapper = modelMapper;
+        this.userKeeper = userKeeper;
     }
 
 
@@ -43,11 +46,16 @@ public class AdvertisementService implements AdvertisementManager {
 
     @Override
     public Set<AdvertisementVO> getMyAdvertisements() {
-        return null;
+        Set<AdvertisementVO> advertisements = new TreeSet<>(Comparator.comparing(AdvertisementVO::getCreationDate));
+        advertisementRepository.findByDeletedFalseAndUserId(userKeeper.loggedUser().getId())
+                .forEach(ad -> advertisements.add(modelMapper.map(ad, AdvertisementVO.class)));
+        return advertisements;
     }
 
     @Override
-    public boolean postAdvertisement(AdvertisementVO advertisementVO) {
-        return false;
+    public Long postAdvertisement(AdvertisementVO advertisementVO) {
+        Advertisement advertisement = modelMapper.map(advertisementVO, Advertisement.class);
+        advertisement.setUser(userKeeper.loggedUser());
+        return advertisementRepository.save(advertisement).getId();
     }
 }

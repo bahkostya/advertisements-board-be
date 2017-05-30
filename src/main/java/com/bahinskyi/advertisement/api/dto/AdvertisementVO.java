@@ -13,16 +13,20 @@ public class AdvertisementVO {
 
     @JsonProperty
     private long id;
-    @JsonProperty
+    @JsonProperty(required = true)
     private String description;
     @JsonProperty
     private LocalDateTime creationDate;
-    @JsonProperty
+    @JsonProperty(required = true)
     private Double price;
     @JsonProperty
-    private User user;
+    private UserVO userVO;
     @JsonProperty
     private Location location;
+
+    public AdvertisementVO() {
+        creationDate = LocalDateTime.now();
+    }
 
     public long getId() {
         return id;
@@ -56,12 +60,12 @@ public class AdvertisementVO {
         this.price = price;
     }
 
-    public User getUser() {
-        return user;
+    public UserVO getUserVO() {
+        return userVO;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserVO(UserVO userVO) {
+        this.userVO = userVO;
     }
 
     public Location getLocation() {

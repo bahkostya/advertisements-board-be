@@ -17,5 +17,5 @@ public interface AdvertisementManager {
 
     Set<AdvertisementVO> getMyAdvertisements();
 
-    boolean postAdvertisement(AdvertisementVO advertisementVO);
+    Long postAdvertisement(AdvertisementVO advertisementVO);
 }

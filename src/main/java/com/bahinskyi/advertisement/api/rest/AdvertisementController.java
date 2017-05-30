@@ -40,11 +40,12 @@ public class AdvertisementController {
 
     @GetMapping("secured/my")
     public Set<AdvertisementVO> getMyAdvertisements() {
-        return null;
+        return advertisementService.getMyAdvertisements();
     }
 
     @PutMapping("secured/ad")
-    public ResponseEntity<String> postAdvertisement(@RequestBody AdvertisementVO advertisementVO) {
-        return null;
+    public AdvertisementVO postAdvertisement(@RequestBody AdvertisementVO advertisementVO) {
+        Long entityId = advertisementService.postAdvertisement(advertisementVO);
+        return getAdvertisement(entityId);
     }
 }
