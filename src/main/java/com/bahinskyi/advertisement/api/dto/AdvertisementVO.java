@@ -75,4 +75,30 @@ public class AdvertisementVO {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AdvertisementVO that = (AdvertisementVO) o;
+
+        if (id != that.id) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (creationDate != null ? !creationDate.equals(that.creationDate) : that.creationDate != null) return false;
+        if (price != null ? !price.equals(that.price) : that.price != null) return false;
+        if (userVO != null ? !userVO.equals(that.userVO) : that.userVO != null) return false;
+        return location == that.location;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (userVO != null ? userVO.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        return result;
+    }
 }

@@ -6,12 +6,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by quento on 30.05.17.
  */
 
-@Controller("user")
+@Controller
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -21,7 +24,7 @@ public class UserController {
     private ModelMapper modelMapper;
 
     @GetMapping
-    public UserVO getLoggedUser() {
+    public @ResponseBody UserVO getLoggedUser() {
         return modelMapper.map(userKeeper.loggedUser(), UserVO.class);
     }
 }

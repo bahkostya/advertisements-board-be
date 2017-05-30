@@ -50,7 +50,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/advertisements/secured/**").authenticated()
+                .antMatchers("/secured").authenticated()
                 .antMatchers("/user/**").authenticated()
                 .and()
                 .formLogin()
