@@ -14,6 +14,8 @@ public class AdvertisementVO {
     @JsonProperty
     private long id;
     @JsonProperty(required = true)
+    private String name;
+    @JsonProperty(required = true)
     private String description;
     @JsonProperty
     private LocalDateTime creationDate;
@@ -34,6 +36,14 @@ public class AdvertisementVO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -84,6 +94,7 @@ public class AdvertisementVO {
         AdvertisementVO that = (AdvertisementVO) o;
 
         if (id != that.id) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (creationDate != null ? !creationDate.equals(that.creationDate) : that.creationDate != null) return false;
         if (price != null ? !price.equals(that.price) : that.price != null) return false;
@@ -94,6 +105,7 @@ public class AdvertisementVO {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);

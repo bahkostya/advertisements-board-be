@@ -14,6 +14,8 @@ import java.util.Date;
 @Table(name = "advertisements")
 public class Advertisement extends AbstractEntity {
 
+    @Column(name = "name", nullable = false)
+    private String name;
     @Column(name = "description", nullable = false)
     private String description;
     @Column(name = "creation_date", nullable = false)
@@ -28,6 +30,14 @@ public class Advertisement extends AbstractEntity {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "location", nullable = false)
     private Location location;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDescription() {
         return description;
