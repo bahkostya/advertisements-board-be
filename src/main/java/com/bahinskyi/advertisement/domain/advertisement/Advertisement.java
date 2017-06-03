@@ -4,7 +4,7 @@ import com.bahinskyi.advertisement.domain.AbstractEntity;
 import com.bahinskyi.advertisement.domain.User;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created by quento on 29.05.17.
@@ -17,7 +17,7 @@ public class Advertisement extends AbstractEntity {
     @Column(name = "description", nullable = false)
     private String description;
     @Column(name = "creation_date", nullable = false)
-    private LocalDateTime creationDate;
+    private Date creationDate;
     @Column(name = "price", nullable = false)
     private Double price;
 
@@ -37,11 +37,11 @@ public class Advertisement extends AbstractEntity {
         this.description = description;
     }
 
-    public LocalDateTime getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
