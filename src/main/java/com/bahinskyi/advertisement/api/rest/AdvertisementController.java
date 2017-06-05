@@ -24,16 +24,19 @@ public class AdvertisementController {
         this.advertisementService = advertisementService;
     }
 
+    @CrossOrigin()
     @GetMapping("advertisement/{advertisementId}")
     public @ResponseBody AdvertisementVO getAdvertisement(@PathVariable Long advertisementId) {
         return advertisementService.getAdvertisement(advertisementId);
     }
 
+    @CrossOrigin()
     @GetMapping("advertisements")
     public @ResponseBody Set<AdvertisementVO> getAdvertisements() {
         return advertisementService.getAdvertisements();
     }
 
+    @CrossOrigin()
     @GetMapping("secured")
     public @ResponseBody Set<AdvertisementVO> getMyAdvertisements() {
         return advertisementService.getMyAdvertisements();
