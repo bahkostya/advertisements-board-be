@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Created by quento on 29.05.17.
@@ -21,6 +23,9 @@ public class AdvertisementService implements AdvertisementManager {
     private final AdvertisementRepository advertisementRepository;
     private final ModelMapper modelMapper;
     private final UserKeeper userKeeper;
+
+    private Supplier<TreeSet<AdvertisementVO>> creationDateSupplier =
+            () -> new TreeSet<>(Comparator.comparing(AdvertisementVO::getCreationDate));
 
     @Autowired
     public AdvertisementService(AdvertisementRepository advertisementRepository, ModelMapper modelMapper, UserKeeper userKeeper) {
@@ -39,17 +44,18 @@ public class AdvertisementService implements AdvertisementManager {
 
     @Override
     public Set<AdvertisementVO> getAdvertisements() {
-        Set<AdvertisementVO> advertisements = new TreeSet<>(Comparator.comparing(AdvertisementVO::getCreationDate));
-        advertisementRepository.findByDeletedFalse().forEach(ad -> advertisements.add(modelMapper.map(ad, AdvertisementVO.class)));
-        return advertisements;
+        return advertisementRepository.findByDeletedFalse()
+                .stream()
+                .map(ad -> modelMapper.map(ad, AdvertisementVO.class))
+                .collect(Collectors.toCollection(creationDateSupplier));
     }
 
     @Override
     public Set<AdvertisementVO> getMyAdvertisements() {
-        Set<AdvertisementVO> advertisements = new TreeSet<>(Comparator.comparing(AdvertisementVO::getCreationDate));
-        advertisementRepository.findByDeletedFalseAndUserId(userKeeper.loggedUser().getId())
-                .forEach(ad -> advertisements.add(modelMapper.map(ad, AdvertisementVO.class)));
-        return advertisements;
+        return advertisementRepository.findByDeletedFalseAndUserId(userKeeper.loggedUser().getId())
+                .stream()
+                .map(ad -> modelMapper.map(ad, AdvertisementVO.class))
+                .collect(Collectors.toCollection(creationDateSupplier));
     }
 
     @Override
@@ -57,5 +63,18 @@ public class AdvertisementService implements AdvertisementManager {
         Advertisement advertisement = modelMapper.map(advertisementVO, Advertisement.class);
         advertisement.setUser(userKeeper.loggedUser());
         return advertisementRepository.save(advertisement).getId();
+    }
+
+    @Override
+    public void deleteAdvertisement(Long advertisementId) {
+        Optional<Advertisement> advertisement = Optional.ofNullable(advertisementRepository.findByIdAndDeletedFalse(advertisementId));
+        advertisementRepository.markDeleted(advertisement.orElseThrow(() -> new AdvertisementBoardException("Requested advertisement does not exist")));
+    }
+
+    @Override
+    public void updateAdvertisement(AdvertisementVO advertisementVO) {
+        Advertisement advertisement = modelMapper.map(advertisementVO, Advertisement.class);
+        advertisement.setUser(userKeeper.loggedUser());
+        advertisementRepository.save(advertisement);
     }
 }

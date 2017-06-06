@@ -1,10 +1,9 @@
 package com.bahinskyi.advertisement.api.dto;
 
-import com.bahinskyi.advertisement.domain.User;
 import com.bahinskyi.advertisement.domain.advertisement.Location;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created by quento on 29.05.17.
@@ -18,16 +17,16 @@ public class AdvertisementVO {
     @JsonProperty(required = true)
     private String description;
     @JsonProperty
-    private LocalDateTime creationDate;
+    private Date creationDate;
     @JsonProperty(required = true)
     private Double price;
     @JsonProperty
-    private UserVO userVO;
+    private UserVO user;
     @JsonProperty
     private Location location;
 
     public AdvertisementVO() {
-        creationDate = LocalDateTime.now();
+        creationDate = new Date();
     }
 
     public long getId() {
@@ -54,11 +53,11 @@ public class AdvertisementVO {
         this.description = description;
     }
 
-    public LocalDateTime getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -70,12 +69,12 @@ public class AdvertisementVO {
         this.price = price;
     }
 
-    public UserVO getUserVO() {
-        return userVO;
+    public UserVO getUser() {
+        return user;
     }
 
-    public void setUserVO(UserVO userVO) {
-        this.userVO = userVO;
+    public void setUser(UserVO user) {
+        this.user = user;
     }
 
     public Location getLocation() {
@@ -98,7 +97,7 @@ public class AdvertisementVO {
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (creationDate != null ? !creationDate.equals(that.creationDate) : that.creationDate != null) return false;
         if (price != null ? !price.equals(that.price) : that.price != null) return false;
-        if (userVO != null ? !userVO.equals(that.userVO) : that.userVO != null) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
         return location == that.location;
     }
 
@@ -109,7 +108,7 @@ public class AdvertisementVO {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (userVO != null ? userVO.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
     }

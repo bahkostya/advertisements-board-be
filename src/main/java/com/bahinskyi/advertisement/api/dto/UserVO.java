@@ -1,10 +1,12 @@
 package com.bahinskyi.advertisement.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 /**
  * Created by quento on 30.05.17.
  */
+
 public class UserVO {
 
     @JsonProperty(required = true)
