@@ -22,7 +22,7 @@ public class AdvertisementVO {
     private Double price;
     @JsonProperty
     private UserVO user;
-    @JsonProperty
+    @JsonProperty(required = true)
     private Location location;
 
     public AdvertisementVO() {
